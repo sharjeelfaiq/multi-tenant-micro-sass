@@ -24,8 +24,6 @@ export const validateMiddleware = {
       throw createError(401, "Authentication required.");
     }
 
-    console.log(req.user);
-
     if (req.user.role !== authorizedRole) {
       throw createError(403, `Access denied: ${authorizedRole} role required.`);
     }

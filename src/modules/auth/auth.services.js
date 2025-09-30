@@ -23,7 +23,7 @@ export const authServices = {
     const existingUser = await read.userByEmail(email);
 
     if (existingUser) {
-      const userTenant = await read.tenantById({ _id: existingUser.tenant});
+      const userTenant = await read.tenantById({ _id: existingUser.tenant });
 
       if (userTenant?.subdomain === tenantSubdomain) {
         throw createError(400, "A user with this email already exists under this tenant.");
@@ -42,15 +42,20 @@ export const authServices = {
     const newUser = await write.user(registrationData);
 
     io.emit("user_count_updated");
-
+    ``
     if (!newUser) {
       throw createError(500, "Failed to create a new user.");
     }
 
+    const accessToken = tokenUtils.generate(
+      { id: newUser._id, role: newUser.role },
+      "accessToken",
+    );
+
     return {
       status: "success",
       message: "Signed up successfully.",
-      data: { id: newUser._id, tenant: tenantId },
+      data: { id: newUser._id, tenant: tenantId, accessToken },
     };
   },
 
@@ -92,6 +97,7 @@ export const authServices = {
 
     const data = {
       id: user._id,
+      tenant: user.tenant,
       accessToken,
     };
 

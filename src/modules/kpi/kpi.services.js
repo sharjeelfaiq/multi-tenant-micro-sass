@@ -5,20 +5,15 @@ const { read, write } = repository;
 
 export const kpiServices = {
     getByTenantId: async (requestQuery) => {
-        const { tenantId } = requestQuery;
+        const { tenant } = requestQuery;
 
         const [usersCount = 0, auditCount = 0] = await Promise.all([
-            read.usersCount(tenantId),
-            read.auditCount(tenantId),
+            read.usersCount(tenant),
+            read.auditCount(tenant),
         ]);
 
-
-        console.log("tenantId", tenantId);
-        console.log("usersCount", usersCount);
-        console.log("auditCount", auditCount);
-
         const auditLogData = {
-            tenant: tenantId,
+            tenant,
             action: "get_kpis",
         };
 
