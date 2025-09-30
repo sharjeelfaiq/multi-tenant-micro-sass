@@ -1,0 +1,8 @@
+.vscode
+.env.production
+.env.development
+
+node_modules
+
+generate-tree.ps1
+directory_tree.md
