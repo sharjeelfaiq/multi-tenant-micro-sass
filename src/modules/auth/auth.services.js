@@ -93,7 +93,12 @@ export const authServices = {
 
     await write.auditLog(auditLogData);
 
-    io.emit("audit_count_updated");
+    const [usersCount, auditCount] = await Promise.all([
+      read.usersCount(user.tenant),
+      read.auditCount(user.tenant),
+    ]);
+
+    io.emit("audit_count_updated", { usersCount, auditCount });
 
     const data = {
       id: user._id,

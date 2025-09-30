@@ -19,7 +19,7 @@ export const kpiServices = {
 
         await write.auditLog(auditLogData);
 
-        io.emit("audit_count_updated");
+        io.emit("audit_count_updated", { usersCount, auditCount });
 
         return {
             status: "success",

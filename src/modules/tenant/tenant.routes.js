@@ -6,5 +6,5 @@ import { validateMiddleware as validate } from "#middleware/index.js";
 export const tenantRoutes = express.Router();
 
 tenantRoutes
-  .get("/:id", validate.authRole("admin"), tenantControllers.getById)
+  .get("/:id", tenantControllers.getById)
   .patch("/:id", validate.authRole("admin"), tenantControllers.updateById)

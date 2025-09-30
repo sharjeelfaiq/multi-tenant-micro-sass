@@ -19,8 +19,12 @@ export const tenantServices = {
     };
 
     await write.auditLog(auditLogData);
+    const [usersCount, auditCount] = await Promise.all([
+      read.usersCount(tenant),
+      read.auditCount(tenant),
+    ]);
 
-    io.emit("audit_count_updated");
+    io.emit("audit_count_updated", { usersCount, auditCount });
 
     return {
       status: "success",
@@ -53,7 +57,12 @@ export const tenantServices = {
 
     await write.auditLog(auditLogData);
 
-    io.emit("audit_count_updated");
+    const [usersCount, auditCount] = await Promise.all([
+      read.usersCount(existingTenant._id),
+      read.auditCount(existingTenant._id),
+    ]);
+
+    io.emit("audit_count_updated", { usersCount, auditCount });
 
     return {
       status: "success",
